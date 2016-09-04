@@ -28,7 +28,41 @@ public class Calcolatrice
 			case DIV:	prod/=curr;
 						break;
 			default:	prod*=curr;
+			//~ default:	prod=1;
 		}
+	}
+	
+	
+	public float generic_pressed (char c)
+	{
+		float res;
+		
+		switch(c)
+		{
+			case '+':
+					res = this.plus_pressed(); 
+					break;
+			case '-':
+					res = this.minus_pressed();
+					break;
+			case '*':
+					res = this.times_pressed();
+					break;
+			case '/':
+					res = this.quot_pressed();
+					break;
+			case '=': case '\n':
+					res = this.result_pressed();
+					break;
+			case '.':
+					res = this.dot_pressed();
+					break;
+			default:
+					int n = c-48;
+					res = this.digit_pressed(n);
+		}
+
+		return res;
 	}
 	
 	
@@ -52,6 +86,16 @@ public class Calcolatrice
 		}
 		return curr;
 	}
+
+	public float number_pressed(float n)
+	{
+		prod=part_res;
+		curr=1;
+		part_res=n;
+		return part_res;
+	}
+	
+	
 	
 	/**
 	 * Gestisce la pressione del puntino divisore per la porzione decimale di un numero.
@@ -75,6 +119,9 @@ public class Calcolatrice
 	{
 		riduci();
 		part_res+= prod;
+		
+		System.out.println("Prod:"+prod+", Curr:"+curr);
+		
 		prod = 1;
 		curr = 0;
 		op = Flag.NIL;
@@ -158,8 +205,18 @@ public class Calcolatrice
 	{
 		riduci();
 		part_res +=prod;
-	
-		return part_res;
+		
+		
+		System.out.println("Prod:"+prod+", Curr:"+curr);
+		
+		float res = part_res;
+		
+		curr = part_res;
+		part_res = 0;
+		prod = 1;
+		op = Flag.NIL;
+		
+		return res;
 	}
 	
 	public void reset()

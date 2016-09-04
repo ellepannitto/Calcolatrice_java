@@ -1,5 +1,6 @@
 import java.util.*;
 import java.awt.event.*;
+import java.awt.*;
 import javax.swing.*;
 
 public class CalcolatriceGUI {
@@ -10,43 +11,60 @@ public class CalcolatriceGUI {
 		Calcolatrice calc = new Calcolatrice();
 
 		JFrame interfaccia = new JFrame("Simple Calculator");
+		JPanel panel = new JPanel();
 		
+		GridLayout layout = new GridLayout(2,1);
+		interfaccia.setLayout(layout);
+		
+		
+		JPanel keyboard = new JPanel();
+		GridLayout layout_keyboard = new GridLayout(5,4);
+		keyboard.setLayout(layout_keyboard);
+				
+				
 		interfaccia.setSize(300, 400);
 		interfaccia.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		JButton digits[] = new JButton[10];
+		CalculatorButton digits[] = new CalculatorButton[10];
 		for (int i=0; i<10; i++)
 		{
-			digits[i]=new JButton(Integer.toString(i));
+			String x = Integer.toString(i);
+			digits[i]=new CalculatorButton(x, calc, this, panel);
 		}
 		
-		JButton result = new JButton("=");
-		result.addActionListener(new CalculatorActionListener(calc, this));
+		CalculatorButton result = new CalculatorButton("=", calc, this, panel);
 		
-		JButton plus = new JButton("+");
-		JButton minus = new JButton("-");
-		JButton times = new JButton("*");
-		JButton quot = new JButton("/");
-		JButton dot = new JButton(".");
+		CalculatorButton plus = new CalculatorButton("+", calc, this, panel);
+
+		CalculatorButton minus = new CalculatorButton("-", calc, this, panel);
+
+		CalculatorButton times = new CalculatorButton("*", calc, this, panel);
 		
+		CalculatorButton quot = new CalculatorButton("/", calc, this, panel);
+		
+		CalculatorButton dot = new CalculatorButton(".", calc, this, panel);
+				
 		display = new JTextField(25);
-		
-		JPanel panel = new JPanel();
+	
+		keyboard.setFocusable(true);
+		keyboard.addKeyListener(new CalculatorKeyListener(calc, this));
 		
 		panel.add(display);
-		panel.add(result);
-		panel.add(plus);
-		panel.add(minus);
-		panel.add(times);
-		panel.add(quot);
-		panel.add(dot);
+		
+		keyboard.add(result);
+		keyboard.add(plus);
+		keyboard.add(minus);
+		keyboard.add(times);
+		keyboard.add(quot);
+		keyboard.add(dot);
 		
 		for (int i=0; i<digits.length; i++)
 		{
-			panel.add(digits[i]);
+			keyboard.add(digits[i]);
 		}
 		
 		interfaccia.add(panel);
+		interfaccia.add(keyboard);
 		
 		interfaccia.setVisible(true);
 		
