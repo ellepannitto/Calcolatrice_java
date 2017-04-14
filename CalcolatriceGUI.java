@@ -45,23 +45,29 @@ public class CalcolatriceGUI {
 		CalculatorButton dot = new CalculatorButton(".", calc, this, panel);
 				
 		display = new JTextField(25);
+		display.setEditable(false);
 	
 		keyboard.setFocusable(true);
 		keyboard.addKeyListener(new CalculatorKeyListener(calc, this));
 		
 		panel.add(display);
 		
-		keyboard.add(result);
-		keyboard.add(plus);
+		keyboard.add(digits[7]);
+		keyboard.add(digits[8]);
+		keyboard.add(digits[9]);
 		keyboard.add(minus);
+		keyboard.add(digits[4]);
+		keyboard.add(digits[5]);
+		keyboard.add(digits[6]);
 		keyboard.add(times);
+		keyboard.add(digits[1]);
+		keyboard.add(digits[2]);
+		keyboard.add(digits[3]);
 		keyboard.add(quot);
+		keyboard.add(digits[0]);
 		keyboard.add(dot);
-		
-		for (int i=0; i<digits.length; i++)
-		{
-			keyboard.add(digits[i]);
-		}
+		keyboard.add(plus);		
+		keyboard.add(result);
 		
 		interfaccia.add(panel);
 		interfaccia.add(keyboard);
@@ -73,6 +79,7 @@ public class CalcolatriceGUI {
 	public static void main (String[] args)
 	{
 		CalcolatriceGUI cg = new CalcolatriceGUI();
+		cg.show_result (0);
 	}
 
 	public void show_result (float x)

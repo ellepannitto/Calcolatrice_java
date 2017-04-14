@@ -9,6 +9,8 @@ public class Calcolatrice
 	
 	private float pot = 1;
 	
+	private boolean last_key_pressed_was_result = false;
+	
 	private enum Flag {
 		MUL,
 		DIV,
@@ -35,33 +37,54 @@ public class Calcolatrice
 	
 	public float generic_pressed (char c)
 	{
-		float res;
+		float res = this.curr;
+		boolean prev_last_key_pressed_was_result = this.last_key_pressed_was_result;
 		
-		switch(c)
+		if ( '0'<=c && c<='9' )
 		{
-			case '+':
-					res = this.plus_pressed(); 
-					break;
-			case '-':
-					res = this.minus_pressed();
-					break;
-			case '*':
-					res = this.times_pressed();
-					break;
-			case '/':
-					res = this.quot_pressed();
-					break;
-			case '=': case '\n':
-					res = this.result_pressed();
-					break;
-			case '.':
-					res = this.dot_pressed();
-					break;
-			default:
-					int n = c-48;
-					res = this.digit_pressed(n);
+			int n = c-48;
+			if ( this.last_key_pressed_was_result )
+			{
+				this.reset ();
+			}
+			
+			res = this.digit_pressed(n);
+			this.last_key_pressed_was_result = false;
 		}
-
+		else
+		{
+			this.last_key_pressed_was_result = false;
+		
+			switch(c)
+			{
+				case '+':
+						res = this.plus_pressed(); 
+						break;
+				case '-':
+						res = this.minus_pressed();
+						break;
+				case '*':
+						res = this.times_pressed();
+						break;
+				case '/':
+						res = this.quot_pressed();
+						break;
+				case '=': case '\n':
+						res = this.result_pressed();
+						this.last_key_pressed_was_result = true;
+						break;
+				case '.':
+						if ( prev_last_key_pressed_was_result )
+						{
+							this.reset ();
+						}
+						res = this.dot_pressed();
+						break;
+				default:
+					this.last_key_pressed_was_result = prev_last_key_pressed_was_result;
+			}
+		}
+		
 		return res;
 	}
 	
@@ -105,7 +128,10 @@ public class Calcolatrice
 	 * */
 	public float dot_pressed()
 	{
-		pot = 0.1f;
+		if ( pot == 1 )
+		{
+			pot = 0.1f;
+		}
 		return curr;
 	}
 
@@ -157,11 +183,13 @@ public class Calcolatrice
 	 * */
 	public float quot_pressed()
 	{
+		float ret = curr;
+		
 		riduci();
 		curr = 0;
 		op = Flag.DIV;
 		
-		return curr;
+		return ret;
 	
 	}
 
@@ -173,11 +201,13 @@ public class Calcolatrice
 	 * */
 	public float times_pressed()
 	{
+		float ret = curr;
+		
 		riduci();
 		curr = 0;
 		op = Flag.MUL;
 		
-		return curr;
+		return ret;
 	
 	}
 

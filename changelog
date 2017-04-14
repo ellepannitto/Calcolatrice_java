@@ -1,0 +1,15 @@
+Patchwork ver 0.1
+  
+  * minor improvement in layout:
+	buttons order changed.
+	display is no more editable.
+	display is set to zero when Calculator appears.
+	when * or / is pressed, the last number is shown instead of zero.
+  * minor improvement in engine:
+	when a digit is pressed after return, the computation restarts instead of appending that digit to the previous result.
+	when dot is pressed after return, the computation restarts from 0. instead of appending the dot to the previous result.
+	when dot is pressed more than one time, only the first is considered.
+	when an illegal character is pressed it is ignored.
+
+-- Ludovica Pannitto <ellepannitto@gmail.com> Fri, 14 Apr 2017 16:21
+
