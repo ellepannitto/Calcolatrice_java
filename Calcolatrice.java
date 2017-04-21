@@ -11,6 +11,8 @@ public class Calcolatrice
 	
 	private boolean last_key_pressed_was_result = false;
 	
+	private char last_op = '#';
+	
 	private enum Flag {
 		MUL,
 		DIV,
@@ -18,6 +20,31 @@ public class Calcolatrice
 	};
 	
 	private Flag op = Flag.NIL;
+	
+	
+	private void do_pending_operation()
+	{
+		
+		switch (this.last_op)
+		{
+			case '+':
+					this.plus_pressed(); 
+					break;
+			case '-':
+					this.minus_pressed();
+					break;
+			case '*':
+					this.times_pressed();
+					break;
+			case '/':
+					this.quot_pressed();
+					break;
+			default:
+					break;
+		}
+		
+		this.last_op = '#';
+	}
 	
 	private void riduci ()
 	{
@@ -48,6 +75,8 @@ public class Calcolatrice
 				this.reset ();
 			}
 			
+			this.do_pending_operation();
+			
 			res = this.digit_pressed(n);
 			this.last_key_pressed_was_result = false;
 		}
@@ -55,25 +84,20 @@ public class Calcolatrice
 		{
 			this.last_key_pressed_was_result = false;
 		
+			
+		
 			switch(c)
 			{
-				case '+':
-						res = this.plus_pressed(); 
-						break;
-				case '-':
-						res = this.minus_pressed();
-						break;
-				case '*':
-						res = this.times_pressed();
-						break;
-				case '/':
-						res = this.quot_pressed();
+				case '+': case '-':	case '*': case '/':
+						this.last_op = c;
 						break;
 				case '=': case '\n':
 						res = this.result_pressed();
 						this.last_key_pressed_was_result = true;
+						this.last_op = '#';
 						break;
 				case '.':
+						this.do_pending_operation();
 						if ( prev_last_key_pressed_was_result )
 						{
 							this.reset ();
@@ -146,7 +170,7 @@ public class Calcolatrice
 		riduci();
 		part_res+= prod;
 		
-		System.out.println("Prod:"+prod+", Curr:"+curr);
+		//~ System.out.println("Prod:"+prod+", Curr:"+curr);
 		
 		prod = 1;
 		curr = 0;
@@ -237,7 +261,7 @@ public class Calcolatrice
 		part_res +=prod;
 		
 		
-		System.out.println("Prod:"+prod+", Curr:"+curr);
+		//~ System.out.println("Prod:"+prod+", Curr:"+curr);
 		
 		float res = part_res;
 		

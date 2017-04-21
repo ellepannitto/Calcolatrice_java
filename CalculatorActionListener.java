@@ -19,7 +19,7 @@ public class CalculatorActionListener implements ActionListener{
 	{
 		float res = c.generic_pressed(this.p);
 		
-		System.out.println(this.p);
+		//~ System.out.println(this.p);
 		
 		g.show_result(res);
 	}

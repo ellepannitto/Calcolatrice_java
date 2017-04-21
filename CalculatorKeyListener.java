@@ -26,15 +26,15 @@ public class CalculatorKeyListener implements KeyListener{
 	
 	public void keyTyped(KeyEvent e) 
 	{
-		System.out.println(e);
-		System.out.println(e.getKeyChar());
+		//~ System.out.println(e);
+		//~ System.out.println(e.getKeyChar());
 		
 		this.p=e.getKeyChar();
-		System.out.println(p);
+		//~ System.out.println(p);
 		
 		float res = c.generic_pressed(this.p);
 		
-		System.out.println(this.p);
+		//~ System.out.println(this.p);
 		
 		g.show_result(res);
 	}

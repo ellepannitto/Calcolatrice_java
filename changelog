@@ -13,3 +13,10 @@ Calcolatrice_Java ver 2.0
 
 -- Ludovica Pannitto <ellepannitto@gmail.com> Fri, 14 Apr 2017 16:21
 
+Calcolatrice_Java ver 2.1
+  
+  * improvement in engine:
+	when multiple operators are pressed, just the last one is taken into account
+
+-- Ludovica Pannitto <ellepannitto@gmail.com> Fri, 21 Apr 2017 17:50
+
