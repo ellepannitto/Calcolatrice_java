@@ -2,6 +2,9 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+/**
+ * Gestisce la pressione dei tasti della tastiera.
+ * */
 public class CalculatorKeyListener implements KeyListener{
 
 	private Calcolatrice c;
@@ -24,20 +27,17 @@ public class CalculatorKeyListener implements KeyListener{
 		;
 	}
 	
+	/**
+	 * Simula la pressione del tasto e mostra il risultato sulla GUI.
+	 * 
+	 * @param e KeyEvent
+	 * 
+	 * */
 	public void keyTyped(KeyEvent e) 
-	{
-		//~ System.out.println(e);
-		//~ System.out.println(e.getKeyChar());
-		
+	{	
 		this.p=e.getKeyChar();
-		//~ System.out.println(p);
 		
 		float res = c.generic_pressed(this.p);
-		
-		//~ System.out.println(this.p);
-		
 		g.show_result(res);
 	}
-	
-	
 }

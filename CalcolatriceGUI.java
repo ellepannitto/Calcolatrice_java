@@ -3,10 +3,18 @@ import java.awt.event.*;
 import java.awt.*;
 import javax.swing.*;
 
+/**
+ * Mostra l'interfaccia grafica della Calcolatrice.
+ * L'interfaccia è composta da un display e un tastierino numerico di dimensioni 5x4, che contiene numeri, operazioni di base (+, *, -, /), tasto result (=) e tasti C e CE (X nell'interfaccia).
+ * */
 public class CalcolatriceGUI {
 
 	private JTextField display;
 
+	/**
+	 * Inizializza un oggetto di classe CalcolatriceGUI.
+	 * 
+	 * */
 	public CalcolatriceGUI () {
 		Calcolatrice calc = new Calcolatrice();
 
@@ -29,21 +37,27 @@ public class CalcolatriceGUI {
 		for (int i=0; i<10; i++)
 		{
 			String x = Integer.toString(i);
-			digits[i]=new CalculatorButton(x, calc, this, panel);
+			digits[i]=new CalculatorButton(x, calc, this);
 		}
 		
-		CalculatorButton result = new CalculatorButton("=", calc, this, panel);
+		CalculatorButton result = new CalculatorButton("=", calc, this);
 		
-		CalculatorButton plus = new CalculatorButton("+", calc, this, panel);
+		CalculatorButton plus = new CalculatorButton("+", calc, this);
 
-		CalculatorButton minus = new CalculatorButton("-", calc, this, panel);
+		CalculatorButton minus = new CalculatorButton("-", calc, this);
 
-		CalculatorButton times = new CalculatorButton("*", calc, this, panel);
+		CalculatorButton times = new CalculatorButton("*", calc, this);
 		
-		CalculatorButton quot = new CalculatorButton("/", calc, this, panel);
+		CalculatorButton quot = new CalculatorButton("/", calc, this);
 		
-		CalculatorButton dot = new CalculatorButton(".", calc, this, panel);
-				
+		CalculatorButton dot = new CalculatorButton(".", calc, this);
+		
+		JLabel filler1 = new JLabel();
+		JLabel filler2 = new JLabel();
+		
+		CalculatorButton ce = new CalculatorButton("X", calc, this);	
+		CalculatorButton canc = new CalculatorButton("C", calc, this);	
+		
 		display = new JTextField(25);
 		display.setEditable(false);
 	
@@ -51,6 +65,7 @@ public class CalcolatriceGUI {
 		keyboard.addKeyListener(new CalculatorKeyListener(calc, this));
 		
 		panel.add(display);
+		
 		
 		keyboard.add(digits[7]);
 		keyboard.add(digits[8]);
@@ -68,6 +83,10 @@ public class CalcolatriceGUI {
 		keyboard.add(dot);
 		keyboard.add(plus);		
 		keyboard.add(result);
+		keyboard.add(filler1);
+		keyboard.add(filler2);
+		keyboard.add(ce);
+		keyboard.add(canc);
 		
 		interfaccia.add(panel);
 		interfaccia.add(keyboard);
@@ -76,12 +95,21 @@ public class CalcolatriceGUI {
 		
 	}
 
+	/**
+	 * Entry point del programma.
+	 * Mostra la calcolatrice fino al momento di chiusura della finestra.
+	 * */
 	public static void main (String[] args)
 	{
 		CalcolatriceGUI cg = new CalcolatriceGUI();
 		cg.show_result (0);
 	}
 
+	/**
+	 * Mostra un numero sul display.
+	 * 
+	 * @param x valore da visualizzare
+	 * */
 	public void show_result (float x)
 	{
 		String res = Float.toString(x);

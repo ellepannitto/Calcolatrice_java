@@ -1,5 +1,6 @@
-
-
+/**
+ * Gestisce il motore di calcolo della calcolatrice.
+ * */
 public class Calcolatrice
 {
 	private float part_res = 0;
@@ -21,7 +22,9 @@ public class Calcolatrice
 	
 	private Flag op = Flag.NIL;
 	
-	
+	/**
+	 * Esegue l'ultima operazione in sospeso.
+	 * */
 	private void do_pending_operation()
 	{
 		
@@ -46,6 +49,9 @@ public class Calcolatrice
 		this.last_op = '#';
 	}
 	
+	/**
+	 * Esegue l'ultima moltiplicazione o divisione per fare in modo che venga rispettata la precedenza degli operatori.
+	 * */
 	private void riduci ()
 	{
 		pot = 1;
@@ -57,11 +63,40 @@ public class Calcolatrice
 			case DIV:	prod/=curr;
 						break;
 			default:	prod*=curr;
-			//~ default:	prod=1;
 		}
 	}
 	
+	/**
+	 * Gestisce la pressione del tasto C (canc), cancellando tutte le operazioni svolte.
+	 * 
+	 * @return 0
+	 * */
+	public float canc_pressed ()
+	{
+		this.reset ();
+		
+		return 0;
+	}
+
+	/**
+	 * Gestisce la pressione del tasto X (ce), cancellando solo l'ultimo numero immesso.
+	 * 
+	 * @return 0
+	 * */
+	public float ce_pressed ()
+	{
+		this.curr = 0;
+		
+		return 0;
+	}
 	
+	/**
+	 * Gestisce la pressione di un qualsiasi tasto del tastierino
+	 * 
+	 * @param c char identificativo del tasto premuto
+	 * 
+	 * @return valore da visualizzare sul display
+	 * */
 	public float generic_pressed (char c)
 	{
 		float res = this.curr;
@@ -84,8 +119,6 @@ public class Calcolatrice
 		{
 			this.last_key_pressed_was_result = false;
 		
-			
-		
 			switch(c)
 			{
 				case '+': case '-':	case '*': case '/':
@@ -104,6 +137,12 @@ public class Calcolatrice
 						}
 						res = this.dot_pressed();
 						break;
+				case 'C':
+						res = this.canc_pressed();
+						break;	
+				case 'X':
+						res = this.ce_pressed();
+						break;	
 				default:
 					this.last_key_pressed_was_result = prev_last_key_pressed_was_result;
 			}
@@ -133,15 +172,6 @@ public class Calcolatrice
 		}
 		return curr;
 	}
-
-	public float number_pressed(float n)
-	{
-		prod=part_res;
-		curr=1;
-		part_res=n;
-		return part_res;
-	}
-	
 	
 	
 	/**
@@ -169,8 +199,6 @@ public class Calcolatrice
 	{
 		riduci();
 		part_res+= prod;
-		
-		//~ System.out.println("Prod:"+prod+", Curr:"+curr);
 		
 		prod = 1;
 		curr = 0;
@@ -236,20 +264,6 @@ public class Calcolatrice
 	}
 
 	/**
-	 * Gestisce la pressione del percento.
-	 * 
-	 * @return il numero da visualizzare
-	 * 
-	 * */
-	public float perc_pressed()
-	{
-		riduci();
-		
-		return part_res;
-	
-	}
-
-	/**
 	 * Gestisce la pressione dell'uguale.
 	 * 
 	 * @return il numero da visualizzare
@@ -259,10 +273,7 @@ public class Calcolatrice
 	{
 		riduci();
 		part_res +=prod;
-		
-		
-		//~ System.out.println("Prod:"+prod+", Curr:"+curr);
-		
+			
 		float res = part_res;
 		
 		curr = part_res;
@@ -273,12 +284,16 @@ public class Calcolatrice
 		return res;
 	}
 	
+	/**
+	 * Resetta la calcolatrice
+	 * */
 	public void reset()
 	{
 		part_res = 0;
 		prod = 1;
 		curr = 0;
 		op = Flag.NIL;
+		last_op = '#';
 	}
 	
 }
